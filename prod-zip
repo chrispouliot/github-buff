@@ -1,0 +1,3 @@
+#!/bin/bash
+
+zip -r bundle.js.zip bundle.js

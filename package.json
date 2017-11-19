@@ -1,0 +1,26 @@
+{
+  "name": "github-buff",
+  "version": "1.0.0",
+  "description": "Buff your github contribution graph",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christophe Pouliot",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.32",
+    "@babel/preset-env": "^7.0.0-beta.32",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "webpack": "^3.8.1",
+    "zip-webpack-plugin": "^2.1.0"
+  },
+  "dependencies": {
+    "lambda-git": "^0.1.1"
+  }
+}
