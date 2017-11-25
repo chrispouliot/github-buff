@@ -21,6 +21,8 @@
     "zip-webpack-plugin": "^2.1.0"
   },
   "dependencies": {
-    "lambda-git": "^0.1.1"
+    "lambda-git": "^0.1.1",
+    "node-git": "0.0.0",
+    "nodegit": "^0.20.3"
   }
 }
