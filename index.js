@@ -1,35 +1,23 @@
 import installGit from 'lambda-git'
-import NodeGit from 'nodegit'
+import simpleGit from 'simple-git'
 import path from 'path'
 
-// config
-const repoUrl = process.env.REPO_URL
-const githubToken = process.env.GITHUB_TOKEN
-const clonePath = path.join(__dirname, 'bla')
-const cloneOptions = {
-  fetchOpts: {
-    callbacks: {
-      credentials: () => (
-        NodeGit.Cred.userpassPlaintextNew(githubToken, 'x-oauth-basic')
-      ),
-    },
-  },
-}
+// CONFIG
+const git = simpleGit(path.join(__dirname, 'tmp')).silent(true)
+const _rawRepoUrl = process.env.REPO_URL
+const _githubToken = process.env.GITHUB_TOKEN
+// Turn https://github.com/... to https://token@github.com/...
+const repoURL = _rawRepoUrl.replace('github.com', `${_githubToken}@github.com`)
 
 // Install Git for our process
-// installGit()
+// installGit()`
 
-const handler = (event, context) => {
-  NodeGit.Clone(
-    repoUrl,
-    clonePath,
-    cloneOptions,
-  ).then((repo) => {
-    console.log("yep")
-  }).catch((err) => {
-    console.log(err)
-  })
-  context.succeed('yep')
+async function handler(event, context) {
+  try {
+    await git.clone(repoURL)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export default handler
