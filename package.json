@@ -12,18 +12,15 @@
     "@babel/core": "^7.0.0-beta.35",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.35",
     "@babel/preset-env": "^7.0.0-beta.32",
-    "babel-core": "^6.26.0",
     "babel-loader": "^8.0.0-beta.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "webpack": "^3.8.1",
-    "zip-webpack-plugin": "^2.1.0"
+    "webpack": "^3.8.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.35",
     "lambda-git": "^0.1.1",
-    "node-git": "0.0.0",
     "simple-git": "^1.85.0"
   }
 }

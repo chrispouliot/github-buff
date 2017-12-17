@@ -4,6 +4,10 @@ var webpack = require('webpack');
 module.exports = {
   entry: './index.js',
   target: 'node',
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   output: {
     path: path.resolve(__dirname),
     filename: 'bundle.js',
@@ -19,10 +23,6 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
-          cacheDirectory: true,
-          presets: ['@babel/preset-env'],
-        }
       }
     ]
   }

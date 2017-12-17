@@ -1,23 +1,35 @@
+import * as fs from 'fs'
+
 import installGit from 'lambda-git'
 import simpleGit from 'simple-git'
 import path from 'path'
 
 // CONFIG
-const git = simpleGit(path.join(__dirname, 'tmp')).silent(true)
 const _rawRepoUrl = process.env.REPO_URL
 const _githubToken = process.env.GITHUB_TOKEN
-// Turn https://github.com/... to https://token@github.com/...
-const repoURL = _rawRepoUrl.replace('github.com', `${_githubToken}@github.com`)
+const _repoName = process.env.REPO_NAME
+const _commitFile = process.env.COMMIT_FILE
 
-// Install Git for our process
-// installGit()`
+const repoPath = path.join(__dirname, _repoName)
+const commitFilePath = path.join(repoPath, _commitFile)
+const repoURLWithToken = _rawRepoUrl.replace('github.com', `${_githubToken}@github.com`)
+
+// setup Git for our process
+installGit()
+fs.mkdirSync(repoPath)
+const git = simpleGit(repoPath).silent(true)
 
 async function handler(event, context) {
   try {
-    await git.clone(repoURL)
+    await git.clone(repoURLWithToken, repoPath)
+    await fs.appendFile(commitFilePath, '!')
+    await git.add('./*')
+    await git.commit('Github buff commit')
+    await git.push(['origin', 'master'])
   } catch (e) {
-    console.log(e)
+    context.fail(e)
   }
+  context.succeed()
 }
 
 export default handler
