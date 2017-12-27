@@ -9,7 +9,8 @@
   "author": "Christophe Pouliot",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.35",
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.36",
     "@babel/preset-env": "^7.0.0-beta.35",
     "babel-loader": "^8.0.0-beta.0",
     "eslint": "^4.11.0",
@@ -18,6 +19,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.36",
     "lambda-git": "^0.1.1",
     "simple-git": "^1.85.0"
   }

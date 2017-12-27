@@ -14,48 +14,35 @@ const repoPath = path.join('/tmp', _repoName)
 const commitFilePath = path.join(repoPath, _commitFile)
 const repoURLWithToken = _rawRepoUrl.replace('github.com', `${_githubToken}@github.com`)
 
-function handler(event, context) {
-  let git = null
-  installGit()
-    .then(() => {
-      console.log('Making repoPath dir..')
-      return fs.mkdir(repoPath)
-    })
-    .then(() => {
-      console.log('Init simple git..')
-      git = simpleGit(repoPath)
-    })
-    .then(() => {
-      console.log('Cloning..')
-      return git.clone(repoURLWithToken, repoPath)
-    })
-    .then(() => {
-      console.log('Appending to file..')
-      return fs.appendFile(commitFilePath, '!')
-    })
-    .then(() => {
-      console.log('Git add..')
-      return git.add('./*')
-    })
-    .then(() => {
-      console.log('Git commit..')
-      return git.raw([
-        '-c',
-        'user.name=\'Christophe Pouliot\'',
-        '-c',
-        'user.email=\'cristophepoug@gmail.com\'',
-        'commit',
-        '-m',
-        '\'Github buff commit\'',
-
-      ])
-    })
-    .then(() => {
-      console.log('Git push..')
-      return git.push(['origin', 'master'])
-    })
-    .then(() => context.succeed())
-    .catch(e => context.fail(e))
+async function handler(event, context) {
+  try {
+    await installGit()
+    console.log('Making repoPath dir..')
+    await fs.mkdir(repoPath)
+    console.log('Init simple git..')
+    const git = await simpleGit(repoPath)
+    console.log('Cloning..')
+    await git.clone(repoURLWithToken, repoPath)
+    console.log('Appending to file..')
+    await fs.appendFile(commitFilePath, '!')
+    console.log('Git add..')
+    await git.add('./*')
+    console.log('Git commit..')
+    await git.raw([
+      '-c',
+      'user.name=\'Christophe Pouliot\'',
+      '-c',
+      'user.email=\'cristophepoug@gmail.com\'',
+      'commit',
+      '-m',
+      '\'Github buff commit\'',
+    ])
+    console.log('Git push..')
+    await git.push(['origin', 'master'])
+    context.succeed()
+  } catch (e) {
+    context.fail(e)
+  }
 }
 
 exports.handler = handler
