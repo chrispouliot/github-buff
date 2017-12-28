@@ -1,4 +1,4 @@
-import { appendFile, getNumCommits } from './utils/common'
+import { writeFile, getNumCommits } from './utils/common'
 import { add, commitAndAuthor, setupGit, push } from './utils/git'
 
 async function handler(event, context) {
@@ -6,7 +6,7 @@ async function handler(event, context) {
     await setupGit()
     const numCommits = getNumCommits()
     for (let numCommit = 1; numCommit <= numCommits; numCommit += 1) {
-      await appendFile('text')
+      await writeFile()
       await add()
       await commitAndAuthor()
     }

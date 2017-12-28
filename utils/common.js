@@ -9,6 +9,8 @@ export const getNumCommits = () => {
   return weights[Math.floor(Math.random() * ((max - min) + 1)) + min]
 }
 
-export const appendFile = async (text) => {
-  await fs.appendFile(commitFilePath, text)
+export const writeFile = async () => {
+  // Write random text to file. Replace old file.
+  const randomText = Math.random().toString(36).substring(7)
+  await fs.writeFile(commitFilePath, randomText)
 }
