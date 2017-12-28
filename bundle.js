@@ -4960,6 +4960,8 @@ var _promise = _interopRequireDefault(__webpack_require__(138));
 
 var _path = _interopRequireDefault(__webpack_require__(15));
 
+var _utils = __webpack_require__(150);
+
 // CONFIG
 const _rawRepoUrl = process.env.REPO_URL;
 const _githubToken = process.env.GITHUB_TOKEN;
@@ -4980,19 +4982,17 @@ function _handler() {
   _handler = (0, _asyncToGenerator2.default)(function* (event, context) {
     try {
       yield (0, _lambdaGit.default)();
-      console.log('Making repoPath dir..');
       yield fs.mkdir(repoPath);
-      console.log('Init simple git..');
       const git = yield (0, _promise.default)(repoPath);
-      console.log('Cloning..');
       yield git.clone(repoURLWithToken, repoPath);
-      console.log('Appending to file..');
-      yield fs.appendFile(commitFilePath, '!');
-      console.log('Git add..');
-      yield git.add('./*');
-      console.log('Git commit..');
-      yield git.raw(['-c', 'user.name=\'Christophe Pouliot\'', '-c', 'user.email=\'cristophepoug@gmail.com\'', 'commit', '-m', '\'Github buff commit\'']);
-      console.log('Git push..');
+      const numCommits = (0, _utils.getNumCommits)();
+
+      for (let numCommit = 1; numCommit <= numCommits; numCommit += 1) {
+        yield fs.appendFile(commitFilePath, '!');
+        yield git.add('./*');
+        yield git.raw(['-c', `user.name=${'Christophe Pouliot'}`, '-c', `user.email=${'cristophepoug@gmail.com'}`, 'commit', '-m', `Gitub buff commit #${numCommit}`]);
+      }
+
       yield git.push(['origin', 'master']);
       context.succeed();
     } catch (e) {
@@ -10236,6 +10236,32 @@ webpackContext.id = 148;
 /***/ (function(module, exports) {
 
 module.exports = require("child_process");
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.range = exports.getNumCommits = void 0;
+
+const getNumCommits = () => {
+  const weights = [1, 1, 1, 2, 2, 3]; // Number of commits, weighted by presence in list
+
+  const [max, min] = [weights.length, 1]; // Get random whole number between (1,6) and get index of weights[] at that number
+
+  return weights[Math.floor(Math.random() * (max - min + 1)) + min];
+};
+
+exports.getNumCommits = getNumCommits;
+
+const range = num => [...Array(num).keys()].map(i => i + 1);
+
+exports.range = range;
 
 /***/ })
 /******/ ]);
