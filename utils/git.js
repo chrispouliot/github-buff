@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import installGit from 'lambda-git'
 import simpleGit from 'simple-git/promise'
 
-import { repoPath, repoURLWithToken } from './constants'
+import { authorEmail, authorName, repoPath, repoURLWithToken } from './constants'
 
 let _git = null
 const getGit = async () => {
@@ -34,9 +34,9 @@ export const commitAndAuthor = async () => {
   const git = await getGit()
   await git.raw([
     '-c',
-    `user.name=${'Christophe Pouliot'}`,
+    `user.name='${authorName}'`,
     '-c',
-    `user.email=${'cristophepoug@gmail.com'}`,
+    `user.email='${authorEmail}'`,
     'commit',
     '-m',
     `Gitub buff commit ${new Date().getTime()}`,
