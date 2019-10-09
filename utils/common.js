@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import { promises as fs } from 'fs';
 
 import { commitFilePath } from './constants'
 
